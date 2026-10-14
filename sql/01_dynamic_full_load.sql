@@ -3,18 +3,14 @@ AS
 BEGIN
     DECLARE @SQL NVARCHAR(MAX);
 
-    -- 1. Dynamically build all the DROP and CREATE statements into one string
+    -- Read the manifest created by the Notebook!
     SELECT @SQL = STRING_AGG(
-        'IF OBJECT_ID(''edw.[' + TABLE_NAME + ']'', ''U'') IS NOT NULL DROP TABLE edw.[' + TABLE_NAME + ']; ' +
-        'CREATE TABLE edw.[' + TABLE_NAME + '] AS SELECT * FROM LH_Silver.[' + TABLE_SCHEMA + '].[' + TABLE_NAME + '];',
+        'IF OBJECT_ID(''edw.[' + TableName + ']'', ''U'') IS NOT NULL DROP TABLE edw.[' + TableName + ']; ' +
+        'CREATE TABLE edw.[' + TableName + '] AS SELECT * FROM LH_Silver.[' + SchemaName + '].[' + TableName + '];',
         ' '
     )
-    FROM LH_Silver.information_schema.tables 
-    WHERE TABLE_TYPE = 'BASE TABLE';
+    FROM LH_Silver.metadata.processed_tables;
 
-    -- 2. Print the script so you can see what it's doing (optional)
-    PRINT @SQL;
-
-    -- 3. Execute the generated script all at once
+    -- Execute the generated script
     EXEC sp_executesql @SQL;
 END;
