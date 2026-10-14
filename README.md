@@ -37,6 +37,14 @@ Power BI Dashboard
 📂 Repository Structure
 /notebooks: Contains the dynamic PySpark code for Bronze-to-Silver ingestion.
 /sql: Contains T-SQL scripts for Stored Procedures and Warehouse automation.
+/powerbi: Contains DAX formulas used in the Semantic Model.
+
+🚀 How to Reproduce
+Create an LH_Bronze and LH_Silver Lakehouse in Fabric.
+Establish a OneLake Shortcut to your OneDrive folder in LH_Bronze.
+Run the PySpark notebook to generate Silver Delta Tables.
+Execute the T-SQL scripts in a new Fabric Warehouse.
+Connect a Power BI Semantic Model to the Warehouse and build visuals.
 
 Pipeline Orchestration
 The entire ETL process is automated using a Fabric Data Pipeline. The PySpark Notebook triggers first, and upon success, the Stored Procedure loads the data into the Warehouse.
@@ -46,10 +54,3 @@ Data Pipeline Architecture
 Pipeline Succeeded
 
 This repository includes two loading strategies: a dynamic full-load script for rapid POC deployment, and an incremental upsert script using WHERE NOT EXISTS for production-level optimization on large datasets.
-/powerbi: Contains DAX formulas used in the Semantic Model.
-🚀 How to Reproduce
-Create an LH_Bronze and LH_Silver Lakehouse in Fabric.
-Establish a OneLake Shortcut to your OneDrive folder in LH_Bronze.
-Run the PySpark notebook to generate Silver Delta Tables.
-Execute the T-SQL scripts in a new Fabric Warehouse.
-Connect a Power BI Semantic Model to the Warehouse and build visuals.
